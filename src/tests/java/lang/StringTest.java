@@ -4,9 +4,9 @@ import org.junit.Test;
 import tests.base.BaseTest;
 
 /**
- * 学习测试String类的源码案例
+ * 瀛︿範娴嬭瘯String绫荤殑婧愮爜妗堜緥
  *
- * @see tests.base.BaseTest 测试基类 主要放置一些测试公用的方法或变量，方便灵活测试
+ * @see tests.base.BaseTest 娴嬭瘯鍩虹被 涓昏鏀剧疆涓�浜涙祴璇曞叕鐢ㄧ殑鏂规硶鎴栧彉閲忥紝鏂逛究鐏垫椿娴嬭瘯
  */
 public class StringTest extends BaseTest {
 

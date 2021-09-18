@@ -4,38 +4,38 @@ import org.junit.Test;
 
 /**
  * Object class tests
- * 04 ObjectÔ´Âë·ÖÎö   ObjectÀàÖĞµÄ·½·¨×÷ÓÃ£¬ÒÔ±ãÀí½â
+ * 04 Objectæºç åˆ†æ   Objectç±»ä¸­çš„æ–¹æ³•ä½œç”¨ï¼Œä»¥ä¾¿ç†è§£
  *
  * @author raysonfang
  * @date 2019-8-8
  */
 public class ObjectTest {
 
-    /**
-     * Object#getClass()
-     */
-    @Test
-    public void testGetClass(){
+	/**
+	 * Object#getClass()
+	 */
+	@Test
+	public void testGetClass(){
 
-        /**
-         * ´Ë·½·¨ÊÇ²âÊÔgetClass()¡¢.class ¡¢getSuperclass()ÈıÕßµÄÇø±ğ
-         * ÔËĞĞ½á¹ûÎª£º
-         * µ±Ç°ÔËĞĞÀàÎª:class tests.java.lang.Son
-         * Í¨¹ıclassÊôĞÔ»ñÈ¡ÀàµÄÀà¶ÔÏó£ºclass tests.java.lang.Parent
-         * µ±Ç°ÔËĞĞÀàµÄ¼Ì³ĞµÄ¸¸ÀàÎª£ºclass tests.java.lang.Parent
-         */
-        Son son = new Son();
-        System.out.println("µ±Ç°ÔËĞĞÀàÎª:" + son.getClass().getCanonicalName());
-        System.out.println("Í¨¹ıclassÊôĞÔ»ñÈ¡ÀàµÄÀà¶ÔÏó£º" + Parent.class);
-        System.out.println("µ±Ç°ÔËĞĞÀàµÄ¼Ì³ĞµÄ¸¸ÀàÎª£º" + son.getClass().getSuperclass());
-    }
+		/**
+		 * æ­¤æ–¹æ³•æ˜¯æµ‹è¯•getClass()ã€.class ã€getSuperclass()ä¸‰è€…çš„åŒºåˆ«
+		 * è¿è¡Œç»“æœä¸ºï¼š
+		 * å½“å‰è¿è¡Œç±»ä¸º:class tests.java.lang.Son
+		 * é€šè¿‡classå±æ€§è·å–ç±»çš„ç±»å¯¹è±¡ï¼šclass tests.java.lang.Parent
+		 * å½“å‰è¿è¡Œç±»çš„ç»§æ‰¿çš„çˆ¶ç±»ä¸ºï¼šclass tests.java.lang.Parent
+		 */
+		tests.java.lang.Son son = new tests.java.lang.Son();
+		System.out.println("å½“å‰è¿è¡Œç±»ä¸º:" + son.getClass().getCanonicalName());
+		System.out.println("é€šè¿‡classå±æ€§è·å–ç±»çš„ç±»å¯¹è±¡ï¼š" + Parent.class);
+		System.out.println("å½“å‰è¿è¡Œç±»çš„ç»§æ‰¿çš„çˆ¶ç±»ä¸ºï¼š" + son.getClass().getSuperclass());
+	}
 
-    /**
-     * ²âÊÔÈÕÖ¾¶ÔÏó
-     */
-    @Test
-    public void testParentLog(){
-        Son son = new Son();
-        son.println();
-    }
+	/**
+	 * æµ‹è¯•æ—¥å¿—å¯¹è±¡
+	 */
+	@Test
+	public void testParentLog(){
+		tests.java.lang.Son son = new tests.java.lang.Son();
+		son.println();
+	}
 }

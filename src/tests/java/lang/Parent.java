@@ -9,6 +9,6 @@ public class Parent {
     public final Logger log = LoggerFactory.getLogger(getClass());
 
     public void println(){
-        log.info("ÎÒÊÇ£ºPapa");
+        log.info("æˆ‘æ˜¯ï¼šPapa");
     }
 }

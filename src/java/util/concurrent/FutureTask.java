@@ -93,18 +93,23 @@ public class FutureTask<V> implements RunnableFuture<V> {
     private volatile int state;
     // 当前任务尚未执行
     private static final int NEW          = 0;
-    // 当前任务正在结束，稍微完全结束，一种临界状态
+    // 当前任务正在结束，稍微完全结束，一种临界状态. 但是任务的执行结果还没有保存到outcome字段(outcome字段用来保存任务执行结果，如果发生异常，则用来保存异常原因)
+	// 或 执行任务发生异常，异常原因还没有保存到outcome字段, 状态会从NEW变更到COMPLETING.这个状态时间会比较短，属于中间状态。
     private static final int COMPLETING   = 1;
-    // 当前任务正常结束
+    // 当前任务正常结束, 任务已经执行完成并且任务执行结果已经保存到outcome字段，状态会从COMPLETING转换到NORMAL.这是一个最终态.
     private static final int NORMAL       = 2;
-    // 当前任务执行过程中发生了异常，内部封装的callable.run()向上抛出了异常
+    // 当前任务执行过程中发生了异常，内部封装的callable.run()向上抛出了异常.
+	// 任务执行发生异常并且异常原因已经保存到outcome字段中后，状态会从COMPLETING转换到EXCEPTIONAL.这是一个最终态.
     private static final int EXCEPTIONAL  = 3;
-    // 当前任务被取消
+    // 当前任务被取消. 任务还没开始执行或者已经开始执行但是还没有执行完成的时候，用户调用了cancel(false)方法取消任务且不终端任务执行线程，这个时候状态会从NEW转化为CANCELLED状态.这是一个最终态.
     private static final int CANCELLED    = 4;
-    // 当前任务终端中...
+    // 当前任务终端中. 任务还没开始执行或者已经执行但是还没有执行完成的时候，用户调用了cancel(true)方法取消任务并且要中断任务执行线程但是还没有中断任务执行线程之前，
+	// 状态会从NEW转化为INTTERUPTING. 这是一个中间状态.
     private static final int INTERRUPTING = 5;
-    // 当前任务已中断
+    // 当前任务已中断. 调用interrupt()中断任务执行线程之后状态会从INTERRUPTING转换到INTERRUPTED. 这是一个最终态。
     private static final int INTERRUPTED  = 6;
+
+    // 所有值大于COMPLETING的状态都表示任务已经执行完成(任务正常执行完成，任务执行异常或者任务被取消)
 
     /** The underlying callable; nulled out after running */
     private Callable<V> callable;
@@ -280,7 +285,7 @@ public class FutureTask<V> implements RunnableFuture<V> {
 
     	// 条件一: state != NEW 条件成立，说明当前task已经被执行过了
 		// 或者 被canel了，总之非NEW状态的任务，线程就不处理了
-		// 条件二: 通过内存CAS操作将当前线程设置到runnerOffet这个属性
+		// 条件二: 通过内存CAS操作将当前线程设置到runner这个属性
 		//    条件成立: cas失败，当前任务被其他线程抢占了
         if (state != NEW ||
             !UNSAFE.compareAndSwapObject(this, runnerOffset,
@@ -289,14 +294,14 @@ public class FutureTask<V> implements RunnableFuture<V> {
 
         // 执行到这里，当前task一定是NEW状态，而且当前线程也抢占Task成功
         try {
-        	// Callable 就是程序员自己封装逻辑的Callable 或者  装饰的Runnable
+        	// Callable 就是程序员自己封装逻辑的Callable 或者  适配器的Runnable
             Callable<V> c = callable;
             //
             if (c != null && state == NEW) {
                 V result;
                 boolean ran;
                 try {
-                	// 调用程序员自己写得Callable  或者 装饰后的Runnable
+                	// 调用程序员自己写得Callable  或者 适配后的Runnable
                     result = c.call();
                     // c.call 未出现任何异常，ran会设置为ture代码执行成功
                     ran = true;
